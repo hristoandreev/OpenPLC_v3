@@ -100,6 +100,7 @@ void initializeHardware();
 void finalizeHardware();
 void updateBuffersIn();
 void updateBuffersOut();
+void setModbusCustomRTS(int on);
 
 //custom_layer.h
 void initCustomLayer();

@@ -85,6 +85,8 @@ uint8_t num_devices;
 uint16_t polling_period = 100;
 uint16_t timeout = 1000;
 
+static void set_custom_rts(modbus_t *ctx, int on);
+
 //-----------------------------------------------------------------------------
 // Finds the data between the separators on the line provided
 //-----------------------------------------------------------------------------
@@ -648,6 +650,20 @@ void initializeMB()
                 mb_devices[i].mb_ctx = modbus_new_rtu(mb_devices[i].dev_address, mb_devices[i].rtu_baud,
                                                 mb_devices[i].rtu_parity, mb_devices[i].rtu_data_bit,
                                                 mb_devices[i].rtu_stop_bit);
+
+				if (mb_devices[i].protocol == MB_RTU) {
+					errno = 0;
+					unsigned char log_msg[1000];
+					if(0 != modbus_rtu_set_rts(mb_devices[i].mb_ctx, MODBUS_RTU_RTS_UP)) {
+						sprintf(log_msg, "Warning MB device %s custom RTS setting failed. Error %d.\n", mb_devices[i].dev_name, errno);
+						log(log_msg);
+					}
+
+					if(0 != modbus_rtu_set_custom_rts(mb_devices[i].mb_ctx, set_custom_rts)) {
+						sprintf(log_msg, "Warning MB device %s custom RTS setting failed. Error %d.\n", mb_devices[i].dev_name, errno);
+						log(log_msg);
+					}
+				}
             }
         }
         
@@ -710,4 +726,13 @@ void updateBuffersOut_MB()
     }
 
     pthread_mutex_unlock(&ioLock);
+}
+
+__attribute__((weak))
+void setModbusCustomRTS(int on) {
+
+}
+
+static void set_custom_rts(modbus_t *ctx, int on) {
+	setModbusCustomRTS(on);
 }
