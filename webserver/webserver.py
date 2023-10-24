@@ -1724,6 +1724,8 @@ def hardware():
             else: return_str += "<option value='psm_win'>Python on Windows (PSM)</option>"
             if (current_driver == "sequent"): return_str += "<option selected='selected' value='sequent'>Sequent HAT</option>"
             else: return_str += "<option value='sequent'>Sequent HAT's</option>"
+            if (current_driver == "unipi_clone"): return_str += "<option selected='selected' value='unipi_clone'>UniPi Clone v1.0</option>"
+            else: return_str += "<option value='unipi_clone'>UniPi Clone v1.0</option>"
             return_str += """
                         </select>
                         <br>

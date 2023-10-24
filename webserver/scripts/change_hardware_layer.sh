@@ -115,6 +115,13 @@ elif [ "$1" == "sequent" ]; then
     echo rpi > ../scripts/openplc_platform
     echo sequent > ../scripts/openplc_driver
 
+elif [ "$1" == "unipi_clone" ]; then
+    echo "Activating UniPi Clone 1.0 driver"
+    cp ./hardware_layers/unipi_clone.cpp ./hardware_layer.cpp
+    echo "Setting Platform"
+    echo rpi > ../scripts/openplc_platform
+    echo unipi_clone > ../scripts/openplc_driver
+
 else
     echo "Error: Invalid hardware layer"
 fi
